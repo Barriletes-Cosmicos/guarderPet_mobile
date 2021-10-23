@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Guarder Pet"),
+        title: const Text("Home"),
         backgroundColor: const Color(0xFFBD1616),
       ),
       body: _getBody(),
@@ -50,23 +50,32 @@ class _HomeScreenState extends State<HomeScreen> {
           const DrawerHeader(
               child: Image(image: AssetImage('assets/titledLogo.png'))),
           ListTile(
+            title: Text('Rol: Cuidador', style: GoogleFonts.acme(fontSize: 18)),
+          ),
+          const Divider(
+            color: Color(0xFFFF2626),
+            height: 5,
+          ),
+          ListTile(
             leading: const Icon(Icons.cleaning_services),
-            title: const Text('Servicios de Mascotas'),
+            title: Text('Servicios de Mascotas',
+                style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.badge),
-            title: const Text('Tipos de Documentos'),
+            title: Text('Tipos de Documentos',
+                style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.pets),
-            title: const Text('Razas'),
+            title: Text('Razas', style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.people),
-            title: const Text('Usuarios'),
+            title: Text('Usuarios', style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {},
           ),
           const Divider(
@@ -75,12 +84,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.face),
-            title: const Text('Editar Perfil'),
+            title: Text('Editar Perfil', style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Cerrar Sesion'),
+            title: Text('Cerrar Sesion', style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => LoginScreen()));
@@ -99,8 +108,15 @@ class _HomeScreenState extends State<HomeScreen> {
           const DrawerHeader(
               child: Image(image: AssetImage('assets/titledLogo.png'))),
           ListTile(
+            title: Text('Rol: Usuario', style: GoogleFonts.acme(fontSize: 18)),
+          ),
+          const Divider(
+            color: Color(0xFFFF2626),
+            height: 5,
+          ),
+          ListTile(
             leading: const Icon(Icons.pets),
-            title: const Text('Mis Mascotas'),
+            title: Text('Mis Mascotas', style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {},
           ),
           const Divider(
@@ -109,12 +125,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.face),
-            title: const Text('Editar Perfil'),
+            title: Text('Editar Perfil', style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Cerrar Sesion'),
+            title: Text('Cerrar Sesion', style: GoogleFonts.acme(fontSize: 18)),
             onTap: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => LoginScreen()));
