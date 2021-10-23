@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:guarderpet_mobile/components/loader_component.dart';
 import 'package:guarderpet_mobile/models/token.dart';
+import 'package:guarderpet_mobile/screens/home_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:guarderpet_mobile/helpers/constants.dart';
 
@@ -173,7 +174,12 @@ class _LoginScreenState extends State<LoginScreen> {
     var decodedJson = jsonDecode(body);
     var token = Token.fromJson(decodedJson);
 
-    print(token.token);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HomeScreen(
+                  token: token,
+                )));
   }
 
   bool validateFields() {
