@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:guarderpet_mobile/components/loader_component.dart';
+import 'package:guarderpet_mobile/models/token.dart';
 import 'package:http/http.dart' as http;
 import 'package:guarderpet_mobile/helpers/constants.dart';
 
@@ -21,21 +23,25 @@ class _LoginScreenState extends State<LoginScreen> {
   bool passShowError = false;
   bool remember = true;
   bool passVisible = false;
+  bool showLoader = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _showLogo(),
-          _showEmail(),
-          _showPassword(),
-          _showRememberMe(),
-          _showButtons(),
+      body: Stack(
+        children: <Widget>[
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            _showLogo(),
+            _showEmail(),
+            _showPassword(),
+            _showRememberMe(),
+            _showButtons(),
+          ]),
+          showLoader
+              ? loaderComponent(text: 'Un momento por favor...')
+              : Container(),
         ],
-      )),
+      ),
     );
   }
 
@@ -135,53 +141,72 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+    setState(() {
+      showLoader = true;
+    });
+
     Map<String, dynamic> request = {
       'username': email,
       'password': password,
     };
 
-    var url = Uri.parse('${Constants.apiURL}/api/account/CreateToken');
+    var url = Uri.parse('${Constants.apiURL}/api/Account/CreateToken');
     var response = await http.post(url,
         headers: {
           'content-type': 'application/json',
           'accept': 'application/json'
         },
         body: jsonEncode(request));
+    setState(() {
+      showLoader = false;
+    });
 
-    print(response);
+    if (response.statusCode >= 400) {
+      setState(() {
+        passShowError = true;
+        passError = 'Email o contraseña incorrectos.';
+      });
+      return;
+    }
+
+    var body = response.body;
+    var decodedJson = jsonDecode(body);
+    var token = Token.fromJson(decodedJson);
+
+    print(token.token);
   }
 
   bool validateFields() {
-    bool hasError = false;
+    bool isValid = true;
 
     if (email.isEmpty) {
-      hasError = true;
+      isValid = false;
       emailshowError = true;
       emailError = 'Ingrese un email por favor';
     } else if (!EmailValidator.validate(email)) {
-      hasError = true;
+      isValid = false;
       emailshowError = true;
       emailError = 'Ingrese un email valido';
     } else {
-      hasError = false;
+      isValid = true;
       emailshowError = false;
       emailError = '';
     }
 
     if (password.isEmpty) {
-      hasError = true;
+      isValid = false;
       passShowError = true;
       passError = 'Debes ingresar una contraseña';
     } else if (!EmailValidator.validate(email)) {
-      hasError = true;
+      isValid = false;
       passShowError = true;
       passError = 'Ingresa una contraseña de al menos 6 caracteres';
     } else {
-      hasError = false;
+      isValid = true;
       passShowError = false;
       passError = '';
     }
     setState(() {});
-    return hasError;
+    return isValid;
   }
 }
